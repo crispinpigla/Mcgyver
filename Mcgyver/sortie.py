@@ -9,7 +9,7 @@ class Sortie:
 
     """  Sortie du labyrinthe  """
 
-    def __init__(self):
+    def __init__(self, plateau):
 
-        self.position = None
+        self.position = plateau.arrive
 		

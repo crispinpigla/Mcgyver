@@ -1,6 +1,6 @@
 """ Classe des objets à ramasser """
 
-
+import random
 
 
 
@@ -11,9 +11,12 @@ class ObjetRamasse:
 
     """ Classe des objets à ramasser """
 
-    def __init__(self, nom_de_lobjet):
+    def __init__(self, plateau, nom_de_lobjet):
 
-        self.position = None
+        random.shuffle(plateau.place_potenti_objet_ramass)
+
+        self.position = plateau.place_potenti_objet_ramass[-1]
+        plateau.place_potenti_objet_ramass.pop()
 
         self.nom_objet = nom_de_lobjet
 
