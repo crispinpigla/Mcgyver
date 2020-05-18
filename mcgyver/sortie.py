@@ -11,5 +11,9 @@ class Sortie:
 
     def __init__(self, plateau):
 
-        self.position = plateau.arrive
-		
+        self._position = plateau.arrive
+
+    @property
+    def position(self):
+    	return self._position
+    

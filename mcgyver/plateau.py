@@ -3,19 +3,12 @@
 
 
 
-
-
-
-
-
-
 class Plateau:
 
     """ Classe du plateau du jeu """
 
     def __init__(self):
 
-        self._plateauvide = []
         self._routes = []
         self._murs = []
         self._depart = []
@@ -32,33 +25,27 @@ class Plateau:
 
         """ Charge la structure """
 
-        with open("Mcgyver/structure.txt") as lignes:
-
+        with open("mcgyver/structure.txt") as lignes:
             ligne0 = []
-
             for y, ligne in enumerate(lignes):
                 for x, char in enumerate(ligne):
-                    self.plateauvide.append((x, y))
                     ligne0.append((x, y))
                     if char == ".":
                         self.routes.append((x, y))
-
                     elif char == "D":
                         self.depart.append((x, y))
-
+                        self.routes.append((x, y))
                     elif char == "A":
                         self.arrive.append((x, y))
-
+                        self.routes.append((x, y))
                     else:
                         self.murs.append((x, y))
                 self.for_affichage.append(ligne0)
                 ligne0 = []
-
         if len( self.depart ) == 1  :
             self.depart = self.depart[0]
         else:
             raise ValueError("Le tableau doit posseder un départ ")
-
         if len( self.arrive ) == 1  :
             self.arrive = self.arrive[0]
         else:
@@ -108,38 +95,32 @@ class Plateau:
 
         #   Les coins
         if point in [(0, 0), (0, 15 - 1), (15 - 1, 0), (15 - 1, 15 - 1)]:
-
             #  coin bas gauche
             if point == (0, 0):
                 if (1, 0) in champs_libres:
                     mov_posible.append((1, 0))
                 if (0, 1) in champs_libres:
                     mov_posible.append((0, 1))
-
             # coin haut gauche
             elif point == (0, 15 - 1):
                 if (0, (15 - 1) - 1) in champs_libres:
                     mov_posible.append((0, (15 - 1) - 1))
                 if (1, 15 - 1) in champs_libres:
                     mov_posible.append((1, 15 - 1))
-
             # coin bas droit
             elif point == (15 - 1, 0):
                 if ((15 - 1) - 1, 0) in champs_libres:
                     mov_posible.append(((15 - 1) - 1, 0))
                 if (15 - 1, 1) in champs_libres:
                     mov_posible.append((15 - 1, 1))
-
             # coin haut droit
             elif point == (15 - 1, 15 - 1):
                 if ((15 - 1) - 1, 15 - 1) in champs_libres:
                     mov_posible.append(((15 - 1) - 1, 15 - 1))
                 if (15 - 1, (15 - 1) - 1) in champs_libres:
                     mov_posible.append((15 - 1, (15 - 1) - 1))
-
         # Les extrémités
         elif (point[0] == 0) or (point[0] == 15 - 1) or (point[1] == 0) or (point[1] == 15 - 1):
-
             #extrémités gauches
             if  point[0] == 0:
                 if (0, point[1] + 1) in champs_libres:
@@ -148,7 +129,6 @@ class Plateau:
                     mov_posible.append((1, point[1]))
                 if (0, point[1] - 1) in champs_libres:
                     mov_posible.append((0, point[1] - 1))
-
             #extrémités droits
             elif point[0] == 15 - 1:
                 if (point[0] - 1, point[1]) in champs_libres:
@@ -157,7 +137,6 @@ class Plateau:
                     mov_posible.append((point[0], point[1] - 1))
                 if (point[0], point[1] + 1) in champs_libres:
                     mov_posible.append((point[0], point[1] + 1))
-
             #extrémités bas
             elif point[1] == 0:
                 if (point[0] - 1, point[1]) in champs_libres:
@@ -166,7 +145,6 @@ class Plateau:
                     mov_posible.append((point[0] + 1, point[1]))
                 if (point[0], point[1] + 1) in champs_libres:
                     mov_posible.append((point[0], point[1] + 1))
-
             #extrémités hauts
             elif point[1] == 15 - 1:
                 if (point[0] - 1, point[1]) in champs_libres:
@@ -175,8 +153,6 @@ class Plateau:
                     mov_posible.append((point[0] + 1, point[1]))
                 if (point[0], point[1] - 1) in champs_libres:
                     mov_posible.append((point[0], point[1] - 1))
-
-
         # le reste
         else:
             if (point[0] - 1, point[1]) in champs_libres:
@@ -187,17 +163,10 @@ class Plateau:
                 mov_posible.append((point[0], point[1] - 1))
             if (point[0], point[1] + 1) in champs_libres:
                 mov_posible.append((point[0], point[1] + 1))
-
         return mov_posible
 
 
-
-
     # Les getters
-
-    @property
-    def plateauvide( self ):
-        return self._plateauvide
 
     @property
     def routes(self):
@@ -230,34 +199,16 @@ class Plateau:
 
     # Les setters
 
-    @plateauvide.setter
-    def plateauvide(self, valeur ):
-        self._plateauvide = valeur
 
-    @routes.setter
-    def routes(self, valeur ):
-        self._routes = valeur
-
-    @murs.setter
-    def murs(self, valeur ):
-        self._murs = valeur
 
     @depart.setter
-    def depart(self, valeur ):
+    def depart(self, valeur):
         self._depart = valeur
 
     @arrive.setter
-    def arrive(self, valeur ):
+    def arrive(self, valeur):
         self._arrive = valeur
 
     @accessible.setter
     def accessible(self, valeur):
         self._accessible = valeur
-
-    @place_potenti_objet_ramass.setter
-    def place_potenti_objet_ramass(self, valeur):
-        self._place_potenti_objet_ramass = valeur
-
-    @for_affichage.setter
-    def for_affichage(self, valeur):
-        self._for_affichage = valeur
