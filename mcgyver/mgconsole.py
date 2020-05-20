@@ -4,8 +4,6 @@
 
 
 
-
-
 class ModeConsole:
 
     """Classe du mode console"""

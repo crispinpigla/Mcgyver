@@ -4,7 +4,6 @@
 
 import random
 
-
 ###    Mes modules
 # Modules de logique
 import hero
@@ -12,7 +11,6 @@ import plateau
 import sortie
 import gardien
 import objramasse
-
 # Modules d'affichage
 import mgconsole
 import mgpygame

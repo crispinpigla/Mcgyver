@@ -11,6 +11,7 @@ class Plateau:
 
         self._routes = []
         self._murs = []
+        
         self._depart = []
         self._arrive = []
         self._for_affichage = []

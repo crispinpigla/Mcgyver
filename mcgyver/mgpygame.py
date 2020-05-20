@@ -16,11 +16,9 @@ from pygame.locals import *
 
 
 class FondSprite( pygame.sprite.Sprite ):
-
     """ Sprite du fond """
 
     def __init__(self):
-
         pygame.sprite.Sprite.__init__(self)
         fond = pygame.image.load("mcgyver/fbc1.png").convert()
         self._image = fond.subsurface(pygame.Rect(0, 0, 600, 600))
@@ -39,12 +37,10 @@ class FondSprite( pygame.sprite.Sprite ):
 
 
 
-class MurSprite( pygame.sprite.Sprite ):
-
+class MurSprite(pygame.sprite.Sprite):
     """ Sprite de mur """
 
     def __init__(self, tuple_mur ):
-        
         pygame.sprite.Sprite.__init__(self)
         fond = pygame.image.load("mcgyver/macgyver_ressources/ressource/brique.png").convert()        
         self._image = fond.subsurface(pygame.Rect(0, 0, 40, 40))
@@ -64,11 +60,9 @@ class MurSprite( pygame.sprite.Sprite ):
 
 
 class HeroSprite( pygame.sprite.Sprite ):
-
     """ Sprite de hero """
 
     def __init__(self, hero):
-        
         pygame.sprite.Sprite.__init__(self)
         fond = pygame.image.load("mcgyver/macgyver_ressources/ressource/mcgyver0.png").convert()        
         self._image = fond.subsurface(pygame.Rect(0, 0, 40, 40))
@@ -87,12 +81,11 @@ class HeroSprite( pygame.sprite.Sprite ):
 
 
 class ObjetsSprite( pygame.sprite.Sprite ):
-
     """ Sprite des objets """
 
     def __init__(self, objet_aramass):
         
-        pygame.sprite.Sprite.__init__(self)
+        super().__init__()
         if objet_aramass.nom_objet == 'aiguille' :
             fond = pygame.image.load("mcgyver/macgyver_ressources/ressource/aiguille0.png").convert_alpha()   
         elif objet_aramass.nom_objet == 'tube_plastiqe' :
@@ -116,7 +109,6 @@ class ObjetsSprite( pygame.sprite.Sprite ):
 
 
 class GardienSprite( pygame.sprite.Sprite ):
-
     """ Sprite du gardien """
 
     def __init__(self, gardien):
@@ -179,43 +171,40 @@ class ModePygame:
 
 
     def build_fond_mur(self, plateau0):
-
         """ Constuit le fond et les murs du jeu """
 
         # définition, remplisage et affichage du groupe des fonds et murs
-        group0 = pygame.sprite.Group()
+        group = pygame.sprite.Group()
         fond_sprit = FondSprite()
-        group0.add(fond_sprit)
+        group.add(fond_sprit)
         for mur in plateau0.murs:
-            group0.add(MurSprite(mur))
-        group0.draw(self.fenetre)
+            group.add(MurSprite(mur))
+        group.draw(self.fenetre)
         pygame.display.flip()
 
 
     def build_hero_objet_gardien(self, mg0, liste_objet, gardien0):
-        
         """ Construction du groupe des objets , mcgyver et gardien """
 
-        group1 = pygame.sprite.Group()
+        group = pygame.sprite.Group()
         gardien_sprit = GardienSprite(gardien0)
         hero_sprit = HeroSprite(mg0)
-        group1.add( gardien_sprit )
-        group1.add( hero_sprit )
+        group.add( gardien_sprit )
+        group.add( hero_sprit )
         for obj in liste_objet:
-            group1.add(ObjetsSprite(obj))
-        group1.draw(self.fenetre)
+            group.add(ObjetsSprite(obj))
+        group.draw(self.fenetre)
         pygame.display.flip()
 
 
     def build_fin_jeu(self, hero, gardien):
-
         # Gestion de la fin du jeu
 
         if hero.position == gardien.position:
             finjeu_sprit = SpriteFinJeu(hero)
-            group2 = pygame.sprite.Group()
-            group2.add(finjeu_sprit)
-            group2.draw(self.fenetre)
+            group = pygame.sprite.Group()
+            group.add(finjeu_sprit)
+            group.draw(self.fenetre)
             pygame.display.flip()
             time.sleep(5)
 
