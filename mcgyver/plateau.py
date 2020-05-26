@@ -1,6 +1,8 @@
 """ Module du plateau """
 
 
+import config
+
 
 
 class Plateau:
@@ -64,7 +66,8 @@ class Plateau:
         while i_0 < len(movables):
             for i_1 in self.move_posible(movables[i_0], champs_libres0):
                 movables.append(i_1)
-                champs_libres0.remove(i_1)
+                if i_1 in champs_libres0 :
+                    champs_libres0.remove(i_1)
             i_0 += 1
 
         # Suppression des répétitions dans les champs accessibles par Mcgiver
@@ -73,7 +76,12 @@ class Plateau:
             champs_accessibles.append(movables[0])
             for i_2 in range(movables.count(champs_accessibles[-1])):
                 movables.remove(champs_accessibles[-1])
-        champs_accessibles.remove(self.depart)
+        if self.depart in champs_accessibles :
+            champs_accessibles.remove(self.depart)
+        if self.arrive in champs_accessibles :
+            champs_accessibles.remove(self.arrive)
+        
+        
 
         self.accessible = champs_accessibles
 
@@ -88,6 +96,25 @@ class Plateau:
             self._place_potenti_objet_ramass = self.accessible
 
 
+    def check_move_posible(self, point, champs_libres, direction_check, mov_posible):
+        """  Vérifie si un champs est accessible dans une direction  """
+        
+        #access = None
+        if direction_check == 'left':
+            if (point[0] - 1, point[1]) in champs_libres:
+                    mov_posible.append((point[0] - 1, point[1]))
+        elif direction_check == 'right':
+            if (point[0] + 1, point[1]) in champs_libres:
+                    mov_posible.append((point[0] + 1, point[1]))
+        elif direction_check == 'up':
+            if (point[0], point[1] + 1) in champs_libres:
+                    mov_posible.append((point[0], point[1] + 1))
+        elif direction_check == 'down':
+            if (point[0], point[1] - 1) in champs_libres:
+                    mov_posible.append((point[0], point[1] - 1))
+        #return access
+
+
     def move_posible(self, point, champs_libres):
 
         """Renvoie liste des points dans lesquels point peut se déplacer étant donné un champs libre"""
@@ -98,72 +125,49 @@ class Plateau:
         if point in [(0, 0), (0, 15 - 1), (15 - 1, 0), (15 - 1, 15 - 1)]:
             #  coin bas gauche
             if point == (0, 0):
-                if (1, 0) in champs_libres:
-                    mov_posible.append((1, 0))
-                if (0, 1) in champs_libres:
-                    mov_posible.append((0, 1))
+                self.check_move_posible(point, champs_libres, 'right', mov_posible)
+                self.check_move_posible(point, champs_libres, 'up', mov_posible)
             # coin haut gauche
             elif point == (0, 15 - 1):
-                if (0, (15 - 1) - 1) in champs_libres:
-                    mov_posible.append((0, (15 - 1) - 1))
-                if (1, 15 - 1) in champs_libres:
-                    mov_posible.append((1, 15 - 1))
+                self.check_move_posible(point, champs_libres, 'down', mov_posible)
+                self.check_move_posible(point, champs_libres, 'right', mov_posible)
             # coin bas droit
             elif point == (15 - 1, 0):
-                if ((15 - 1) - 1, 0) in champs_libres:
-                    mov_posible.append(((15 - 1) - 1, 0))
-                if (15 - 1, 1) in champs_libres:
-                    mov_posible.append((15 - 1, 1))
+                self.check_move_posible(point, champs_libres, 'left', mov_posible)
+                self.check_move_posible(point, champs_libres, 'up', mov_posible)
             # coin haut droit
             elif point == (15 - 1, 15 - 1):
-                if ((15 - 1) - 1, 15 - 1) in champs_libres:
-                    mov_posible.append(((15 - 1) - 1, 15 - 1))
-                if (15 - 1, (15 - 1) - 1) in champs_libres:
-                    mov_posible.append((15 - 1, (15 - 1) - 1))
+                self.check_move_posible(point, champs_libres, 'left', mov_posible)
+                self.check_move_posible(point, champs_libres, 'down', mov_posible)
         # Les extrémités
         elif (point[0] == 0) or (point[0] == 15 - 1) or (point[1] == 0) or (point[1] == 15 - 1):
             #extrémités gauches
             if  point[0] == 0:
-                if (0, point[1] + 1) in champs_libres:
-                    mov_posible.append((0, point[1] + 1))
-                if (1, point[1]) in champs_libres:
-                    mov_posible.append((1, point[1]))
-                if (0, point[1] - 1) in champs_libres:
-                    mov_posible.append((0, point[1] - 1))
+                self.check_move_posible(point, champs_libres, 'up', mov_posible)
+                self.check_move_posible(point, champs_libres, 'down', mov_posible)
+                self.check_move_posible(point, champs_libres, 'right', mov_posible)
             #extrémités droits
             elif point[0] == 15 - 1:
-                if (point[0] - 1, point[1]) in champs_libres:
-                    mov_posible.append((point[0] - 1, point[1]))
-                if (point[0], point[1] - 1) in champs_libres:
-                    mov_posible.append((point[0], point[1] - 1))
-                if (point[0], point[1] + 1) in champs_libres:
-                    mov_posible.append((point[0], point[1] + 1))
+                self.check_move_posible(point, champs_libres, 'up', mov_posible)
+                self.check_move_posible(point, champs_libres, 'down', mov_posible)
+                self.check_move_posible(point, champs_libres, 'left', mov_posible)
             #extrémités bas
             elif point[1] == 0:
-                if (point[0] - 1, point[1]) in champs_libres:
-                    mov_posible.append((point[0] - 1, point[1]))
-                if (point[0] + 1, point[1]) in champs_libres:
-                    mov_posible.append((point[0] + 1, point[1]))
-                if (point[0], point[1] + 1) in champs_libres:
-                    mov_posible.append((point[0], point[1] + 1))
+                self.check_move_posible(point, champs_libres, 'left', mov_posible)
+                self.check_move_posible(point, champs_libres, 'right', mov_posible)
+                self.check_move_posible(point, champs_libres, 'up', mov_posible)
             #extrémités hauts
             elif point[1] == 15 - 1:
-                if (point[0] - 1, point[1]) in champs_libres:
-                    mov_posible.append((point[0] - 1, point[1]))
-                if (point[0] + 1, point[1]) in champs_libres:
-                    mov_posible.append((point[0] + 1, point[1]))
-                if (point[0], point[1] - 1) in champs_libres:
-                    mov_posible.append((point[0], point[1] - 1))
+                self.check_move_posible(point, champs_libres, 'left', mov_posible)
+                self.check_move_posible(point, champs_libres, 'right', mov_posible)
+                self.check_move_posible(point, champs_libres, 'down', mov_posible)
         # le reste
         else:
-            if (point[0] - 1, point[1]) in champs_libres:
-                mov_posible.append((point[0] - 1, point[1]))
-            if (point[0] + 1, point[1]) in champs_libres:
-                mov_posible.append((point[0] + 1, point[1]))
-            if (point[0], point[1] - 1) in champs_libres:
-                mov_posible.append((point[0], point[1] - 1))
-            if (point[0], point[1] + 1) in champs_libres:
-                mov_posible.append((point[0], point[1] + 1))
+            self.check_move_posible(point, champs_libres, 'left', mov_posible)
+            self.check_move_posible(point, champs_libres, 'right', mov_posible)
+            self.check_move_posible(point, champs_libres, 'up', mov_posible)
+            self.check_move_posible(point, champs_libres, 'down', mov_posible)
+
         return mov_posible
 
 

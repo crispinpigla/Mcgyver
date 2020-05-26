@@ -6,7 +6,7 @@ import pygame
 
 from pygame.locals import *
 
-
+import config
 
 
 
@@ -20,7 +20,7 @@ class FondSprite( pygame.sprite.Sprite ):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        fond = pygame.image.load("mcgyver/fbc1.png").convert()
+        fond = pygame.image.load(config.IMAGE_FOND).convert()
         self._image = fond.subsurface(pygame.Rect(0, 0, 600, 600))
         self._rect = pygame.Rect(0, 0, 600, 600)
 
@@ -42,7 +42,7 @@ class MurSprite(pygame.sprite.Sprite):
 
     def __init__(self, tuple_mur ):
         pygame.sprite.Sprite.__init__(self)
-        fond = pygame.image.load("mcgyver/macgyver_ressources/ressource/brique.png").convert()        
+        fond = pygame.image.load(config.IMAGE_MUR[1]).convert()
         self._image = fond.subsurface(pygame.Rect(0, 0, 40, 40))
         self._rect = pygame.Rect(tuple_mur[0]*40, tuple_mur[1]*40 ,40 ,40 )
 
@@ -64,7 +64,7 @@ class HeroSprite( pygame.sprite.Sprite ):
 
     def __init__(self, hero):
         pygame.sprite.Sprite.__init__(self)
-        fond = pygame.image.load("mcgyver/macgyver_ressources/ressource/mcgyver0.png").convert()        
+        fond = pygame.image.load(config.IMAGE_HERO).convert()
         self._image = fond.subsurface(pygame.Rect(0, 0, 40, 40))
         self._rect = pygame.Rect(hero.position[0]*40, hero.position[1]*40 ,40 ,40 )
 
@@ -86,14 +86,40 @@ class ObjetsSprite( pygame.sprite.Sprite ):
     def __init__(self, objet_aramass):
         
         super().__init__()
-        if objet_aramass.nom_objet == 'aiguille' :
-            fond = pygame.image.load("mcgyver/macgyver_ressources/ressource/aiguille0.png").convert_alpha()   
-        elif objet_aramass.nom_objet == 'tube_plastiqe' :
-            fond = pygame.image.load("mcgyver/macgyver_ressources/ressource/tube_plastique0.png").convert_alpha()   
-        elif objet_aramass.nom_objet == 'ether' :
-            fond = pygame.image.load("mcgyver/macgyver_ressources/ressource/ether0.png").convert_alpha()
+
+        index_objet_config = 0
+        while config.OBJETS_ARAMASSER[index_objet_config]['nom'] != objet_aramass.nom_objet :
+            index_objet_config += 1
+        fond = pygame.image.load(config.OBJETS_ARAMASSER[index_objet_config]['image_ressource']).convert_alpha()
         self._image = fond.subsurface(pygame.Rect(0, 0, 40, 40))
         self._rect = pygame.Rect(objet_aramass.position[0]*40, objet_aramass.position[1]*40 ,40 ,40 )
+
+
+    #getters
+    @property
+    def image(self):
+        return self._image
+
+    @property
+    def rect(self):
+        return self._rect
+
+
+
+
+class ObjetsCompteurSprite( pygame.sprite.Sprite ):
+    """ Sprite des objets """
+
+    def __init__(self, objet_aramass, index_objet):
+        
+        super().__init__()
+
+        index_objet_config = 0
+        while config.OBJETS_ARAMASSER[index_objet_config]['nom'] != objet_aramass.nom_objet :
+            index_objet_config += 1
+        fond = pygame.image.load(config.OBJETS_ARAMASSER[index_objet_config]['image_ressource_compteur']).convert_alpha()
+        self._image = fond.subsurface(pygame.Rect(0, 0, 25, 25))
+        self._rect = pygame.Rect(300+(index_objet*40), 600+12.5 ,25 ,25 )
 
 
     #getters
@@ -114,7 +140,7 @@ class GardienSprite( pygame.sprite.Sprite ):
     def __init__(self, gardien):
         
         pygame.sprite.Sprite.__init__(self)
-        fond = pygame.image.load("mcgyver/macgyver_ressources/ressource/gardien0.png").convert()        
+        fond = pygame.image.load(config.IMAGE_GARDIEN).convert()
         self._image = fond.subsurface(pygame.Rect(0, 0, 40, 40))
         self._rect = pygame.Rect(gardien.position[0]*40, gardien.position[1]*40 ,40 ,40 )
 
@@ -129,6 +155,30 @@ class GardienSprite( pygame.sprite.Sprite ):
         return self._rect
 
 
+
+class CompteurSprite( pygame.sprite.Sprite ):
+    """ Sprite du compteur """
+
+    def __init__(self, mcgyver):
+
+        pygame.sprite.Sprite.__init__(self)
+        fond = fond = pygame.image.load("mcgyver/macgyver_ressources/ressource/compteurobjram.png").convert()
+        self._image = fond.subsurface(pygame.Rect(0, 0, 600, 50))
+        self._rect = pygame.Rect(0, 600 ,600 ,50)
+
+    #getters
+    @property
+    def image(self):
+        return self._image
+
+    @property
+    def rect(self):
+        return self._rect
+
+
+
+
+
 class SpriteFinJeu( pygame.sprite.Sprite ):
 
     """ Sprite de fin du jeu """
@@ -136,7 +186,7 @@ class SpriteFinJeu( pygame.sprite.Sprite ):
     def __init__(self, hero):
 
         pygame.sprite.Sprite.__init__(self)
-        if len(hero.objet_ramasse) == 3 :
+        if len(hero.objet_ramasse) == len(config.OBJETS_ARAMASSER) :
             fond = pygame.image.load("mcgyver/macgyver_ressources/ressource/gagne.png").convert()
         else:
             fond = pygame.image.load("mcgyver/macgyver_ressources/ressource/perdu.png").convert()
@@ -197,6 +247,19 @@ class ModePygame:
         pygame.display.flip()
 
 
+    def build_object_counter(self, hero):
+        """ Construction du groupe du compteur """
+
+        group = pygame.sprite.Group()
+        compteur_sprite = CompteurSprite(hero)
+        group.add(compteur_sprite)
+        for objet in hero.objet_ramasse :
+            group.add(ObjetsCompteurSprite(objet, hero.objet_ramasse.index(objet)))
+        group.draw(self.fenetre)
+        pygame.display.flip()
+
+
+
     def build_fin_jeu(self, hero, gardien):
         # Gestion de la fin du jeu
 
@@ -215,9 +278,10 @@ class ModePygame:
 
         pygame.init()
 
-        self.fenetre = pygame.display.set_mode((600, 600), RESIZABLE)
+        self.fenetre = pygame.display.set_mode((600, 650), RESIZABLE)
         self.build_fond_mur(plateau0)
         self.build_hero_objet_gardien(mg0, liste_objet, gardien0)
+        self.build_object_counter(mg0)
 
         # La boucle du jeu
         while mg0.position != gardien0.position :
@@ -230,13 +294,13 @@ class ModePygame:
                 # Capture des mouvements
                 if event.type == KEYDOWN:
                     if event.key == K_LEFT:
-                        direction_input = 'j'
+                        direction_input = config.MOUVEMENT_GAUCHE
                     elif event.key == K_UP:
-                        direction_input = 'i'
+                        direction_input = config.MOUVEMENT_HAUT
                     elif event.key == K_RIGHT:
-                        direction_input = 'l'
+                        direction_input = config.MOUVEMENT_DROITE
                     elif event.key == K_DOWN:
-                        direction_input = 'k'
+                        direction_input = config.MOUVEMENT_BAS
                     else:
                         direction_input = 'autre'
 
@@ -246,3 +310,4 @@ class ModePygame:
                     self.build_fond_mur(plateau0)
                     self.build_hero_objet_gardien(mg0, liste_objet, gardien0)
                     self.build_fin_jeu(mg0, gardien0)
+                    self.build_object_counter(mg0)
