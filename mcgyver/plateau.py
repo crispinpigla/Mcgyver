@@ -74,6 +74,7 @@ class Plateau:
             for i_2 in range(movables.count(champs_accessibles[-1])):
                 movables.remove(champs_accessibles[-1])
         champs_accessibles.remove(self.depart)
+        champs_accessibles.remove(self.arrive)
 
         self.accessible = champs_accessibles
 

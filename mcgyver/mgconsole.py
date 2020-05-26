@@ -1,6 +1,8 @@
 """ Affiche le jeux en mode console """
 
 
+import config
+
 
 
 
@@ -13,16 +15,16 @@ class ModeConsole:
         pass
         
 
-    def start(self, mg0, aiguille0, tube_plastiqe0, ether0, gardien0, sortie0, plateau0):
+    def start(self, mg0, liste_objets_aramass, gardien0, sortie0, plateau0):
 
         """ Gère les mouvements de Mcgyver en mode console """
 
         while mg0.position != sortie0.position:
-            self.draw_console(mg0.position, [aiguille0, tube_plastiqe0, ether0], sortie0.position, plateau0)
-            direction_input = input("Déplacer McGyver !! \n\n j : vers la gauche\n l : vers la droite\n k : vers le bas\n i : vers le haut\n\n ")
+            self.draw_console(mg0.position, liste_objets_aramass, sortie0.position, plateau0)
+            direction_input = input("Déplacer McGyver !! \n\n " + config.MOUVEMENT_GAUCHE + " : vers la gauche\n " + config.MOUVEMENT_DROITE + " : vers la droite\n " + config.MOUVEMENT_BAS + " : vers le bas\n " + config.MOUVEMENT_HAUT + " : vers le haut\n\n ")
             # Modification de la position de Mcgyver
-            mg0.pas_mcgyver(direction_input, [aiguille0, tube_plastiqe0, ether0], gardien0)
-        self.draw_console(mg0.position, [aiguille0, tube_plastiqe0, ether0], sortie0.position, plateau0)
+            mg0.pas_mcgyver(direction_input, liste_objets_aramass, gardien0)
+        self.draw_console(mg0.position, liste_objets_aramass, sortie0.position, plateau0)
 
         #Gestion de la fin du jeu
         if len(mg0.objet_ramasse) == 3:
