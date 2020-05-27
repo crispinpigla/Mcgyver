@@ -1,452 +1,358 @@
 
 
-
-
-
-
-
-
-
-
-
 class Plateau:
 
-	"""docstring for Plateau"""
+    """docstring for Plateau"""
 
-	def __init__( self , taille_plateau ):
+    def __init__(self, taille_plateau):
 
-		self.plateauvide = []
-		
-		for i0 in range( taille_plateau ):
-			
-			for i1 in range( taille_plateau ):
-				
-				self.plateauvide.append( ( i1 , i0 ) )
+        self.plateauvide = []
 
+        for i0 in range(taille_plateau):
 
-	# renvoie une liste de mur valide en protegeant les routes des murs 
+            for i1 in range(taille_plateau):
 
-	def initialisemur( self , taille_plateau , route1 , route2 , route3 , route4 ):
+                self.plateauvide.append((i1, i0))
 
-		self.mur = []
+    # renvoie une liste de mur valide en protegeant les routes des murs
 
-		for i0 in range( taille_plateau ):
-			
-			for i1 in range( taille_plateau ):
-				
-				if ( ( i1 , i0 ) in route1 ) or ( ( i1 , i0 ) in route2 ) or ( ( i1 , i0 ) in route3 ) or ( ( i1 , i0 ) in route4 ) :
+    def initialisemur(self, taille_plateau, route1, route2, route3, route4):
 
-					pass
+        self.mur = []
 
-				else :
+        for i0 in range(taille_plateau):
 
-					if random.randrange( 2 ) == 0 :
+            for i1 in range(taille_plateau):
 
-						self.mur.append( ( i1 , i0 ) )
+                if ((i1, i0) in route1) or ((i1, i0) in route2) or ((i1, i0) in route3) or ((i1, i0) in route4):
 
-					else :
+                    pass
 
-						pass
+                else:
 
+                    if random.randrange(2) == 0:
 
+                        self.mur.append((i1, i0))
+
+                    else:
+
+                        pass
 
 
 class Sortie:
 
-	"""docstring for Sortie"""
+    """docstring for Sortie"""
 
-	def __init__( self , taille_plateau ):
+    def __init__(self, taille_plateau):
 
-		self.position = ( random.randrange( taille_plateau - 1 ) , random.randrange( taille_plateau - 1 ) )
+        self.position = (random.randrange(taille_plateau - 1),
+                         random.randrange(taille_plateau - 1))
 
-		self.route_mg = []
-
-		
+        self.route_mg = []
 
 
 class Heros:
 
-	"""docstring for Heros"""
+    """docstring for Heros"""
 
-	def __init__( self , taille_plateau ):
+    def __init__(self, taille_plateau):
 
-		self.position = ( random.randrange( taille_plateau - 1 ) , random.randrange( taille_plateau - 1 ) )
+        self.position = (random.randrange(taille_plateau - 1),
+                         random.randrange(taille_plateau - 1))
 
-		self.objet_ramasse = [] ;
-
-
+        self.objet_ramasse = []
 
 
 class Gardien:
 
-	"""docstring for Gardien"""
-	
-	def __init__( self , taille_plateau ):
+    """docstring for Gardien"""
 
-		self.position = ( 0 , 0)
+    def __init__(self, taille_plateau):
 
-
+        self.position = (0, 0)
 
 
 class ObjetsRamasses:
 
-	"""docstring for Objets"""
+    """docstring for Objets"""
 
-	def __init__( self , taille_plateau , nom_de_lobjet ):
+    def __init__(self, taille_plateau, nom_de_lobjet):
 
+        self.position = (random.randrange(taille_plateau - 1),
+                         random.randrange(taille_plateau - 1))
 
-		self.position = ( random.randrange( taille_plateau - 1 ) , random.randrange( taille_plateau - 1 ) )
+        self.route_mg = []
 
-		self.route_mg = []
-
-		self.nom_objet = nom_de_lobjet
-		
-	
-
+        self.nom_objet = nom_de_lobjet
 
 
 """  Fait un pas d'une cible vers le curseur dans un plateau vide ( pour la construction des routes )  """
 
-#      A fonctionner 
+#      A fonctionner
+
 
 class Pas:
 
-	"""docstring for Pas"""
+    """docstring for Pas"""
 
-	def __init__( self ):
-		
-		pass
+    def __init__(self):
 
+        pass
 
-	def make_pas( self , curseur , cible ):
-		
-		#curseur_intermediaire = ( curseur[0] + 2 , curseur[1] + 2 )
+    def make_pas(self, curseur, cible):
 
-		
+        #curseur_intermediaire = ( curseur[0] + 2 , curseur[1] + 2 )
 
-		curseur_intermediaire = curseur
+        curseur_intermediaire = curseur
 
-		
-		if curseur == cible :
-			
-			print( 'le curseur est sur la cible' )
+        if curseur == cible:
 
-		elif curseur[0] == cible[0] :
+            print('le curseur est sur la cible')
 
-			if cible[1] > curseur[1] :
+        elif curseur[0] == cible[0]:
 
-				curseur_intermediaire = ( curseur[0] , curseur[1] + 1 )
+            if cible[1] > curseur[1]:
 
+                curseur_intermediaire = (curseur[0], curseur[1] + 1)
 
-			elif cible[1] < curseur[1] :
+            elif cible[1] < curseur[1]:
 
-				curseur_intermediaire = ( curseur[0] , curseur[1] - 1 )
+                curseur_intermediaire = (curseur[0], curseur[1] - 1)
 
+        elif curseur[1] == cible[1]:
 
+            if cible[0] > curseur[0]:
 
-		elif curseur[1] == cible[1] :
+                curseur_intermediaire = (curseur[0] + 1, curseur[1])
 
-			if cible[0] > curseur[0] :
+            elif cible[0] < curseur[0]:
 
-				curseur_intermediaire = ( curseur[0] + 1 , curseur[1] )
-				 
+                curseur_intermediaire = (curseur[0] - 1, curseur[1])
 
-			elif cible[0] < curseur[0] :
+        else:
 
-				curseur_intermediaire = ( curseur[0] - 1 , curseur[1] )
-				 
+            if random.randrange(2) == 0:
 
+                if cible[0] > curseur[0]:
 
+                    curseur_intermediaire = (curseur[0] + 1, curseur[1])
 
-		else :
+                elif cible[0] < curseur[0]:
 
+                    curseur_intermediaire = (curseur[0] - 1, curseur[1])
 
-			if random.randrange( 2 ) == 0 :
-				
-				if cible[0] > curseur[0] :
+            else:
 
-					curseur_intermediaire = ( curseur[0] + 1 , curseur[1] )
-					 
+                if cible[1] > curseur[1]:
 
-				elif cible[0] < curseur[0] :
+                    curseur_intermediaire = (curseur[0], curseur[1] + 1)
 
-					curseur_intermediaire = ( curseur[0] - 1 , curseur[1] )
-					 
+                elif cible[1] < curseur[1]:
 
-			else :
+                    curseur_intermediaire = (curseur[0], curseur[1] - 1)
 
-				if cible[1] > curseur[1] :
+        return (curseur_intermediaire)
 
-					curseur_intermediaire = ( curseur[0] , curseur[1] + 1 )
-					 
-
-				elif cible[1] < curseur[1] :
-
-					curseur_intermediaire = ( curseur[0] , curseur[1] - 1 )
-					 
-
-		
-		return ( curseur_intermediaire )	
-
-
-
-	def make_pas_with_mur( self , curseur , cible  ):
-		pass
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    def make_pas_with_mur(self, curseur, cible):
+        pass
 
 
 def generate_structure():
-	
-	pas = Pas();
 
-	plateau = Plateau(15)
+    pas = Pas()
 
-	position_initialisee = []
+    plateau = Plateau(15)
 
-	mg = Heros(15)
+    position_initialisee = []
 
-	position_initialisee.append( mg.position )
+    mg = Heros(15)
 
+    position_initialisee.append(mg.position)
 
+    aiguille = ObjetsRamasses(15, 'aiguille')
 
+    # Test si la position de l'aiguille est déjà occupée
 
+    while aiguille.position in position_initialisee:
 
-	aiguille = ObjetsRamasses( 15 , 'aiguille' )
+        aiguille = ObjetsRamasses(15, 'aiguille')
 
-	# Test si la position de l'aiguille est déjà occupée
+    # Ajout de la position de l'aiguille dans la liste des positions occupées
 
-	while aiguille.position in position_initialisee :
-		
-		aiguille = ObjetsRamasses( 15 , 'aiguille' )
+    position_initialisee.append(aiguille.position)
 
-	# Ajout de la position de l'aiguille dans la liste des positions occupées
+    # Définition de la route que mcgyver emprunte pour atteindre cet objet
 
-	position_initialisee.append( aiguille.position )
+    lepas = mg.position
 
-	# Définition de la route que mcgyver emprunte pour atteindre cet objet
+    aiguille.route_mg.append(lepas)
 
-	lepas = mg.position
+    while lepas != aiguille.position:
 
-	aiguille.route_mg.append( lepas )
+        lepas = pas.make_pas(lepas, aiguille.position)
 
-	while lepas != aiguille.position :
+        aiguille.route_mg.append(lepas)
 
-		lepas = pas.make_pas( lepas , aiguille.position )
+    #print( aiguille.route_mg )
 
-		aiguille.route_mg.append( lepas )
+    tube_plastiqe = ObjetsRamasses(15, 'tube_plastiqe')
 
-	#print( aiguille.route_mg )
+    # Test si la position du tube en plastiqe est déjà occupée
 
+    while tube_plastiqe.position in position_initialisee:
 
+        tube_plastiqe = ObjetsRamasses(15, 'tube_plastiqe')
 
+    # Ajout de la position du tube en plastiqe dans la liste des positions occupées
 
+    position_initialisee.append(tube_plastiqe.position)
 
-	tube_plastiqe = ObjetsRamasses( 15 , 'tube_plastiqe' )
+    # Définition de la route que mcgyver emprunte pour atteindre cet objet
 
-	# Test si la position du tube en plastiqe est déjà occupée
+    lepas = mg.position
 
-	while tube_plastiqe.position in position_initialisee :
-		
-		tube_plastiqe = ObjetsRamasses( 15 , 'tube_plastiqe' )
+    tube_plastiqe.route_mg.append(lepas)
 
-	# Ajout de la position du tube en plastiqe dans la liste des positions occupées
+    while lepas != tube_plastiqe.position:
 
-	position_initialisee.append( tube_plastiqe.position )
+        lepas = pas.make_pas(lepas, tube_plastiqe.position)
 
-	# Définition de la route que mcgyver emprunte pour atteindre cet objet
+        tube_plastiqe.route_mg.append(lepas)
 
-	lepas = mg.position
+    #print( tube_plastiqe.route_mg )
 
-	tube_plastiqe.route_mg.append( lepas )
+    ether = ObjetsRamasses(15, 'ether')
 
-	while lepas != tube_plastiqe.position :
+    # Test si la position de l'ether est déjà occupée
 
-		lepas = pas.make_pas( lepas , tube_plastiqe.position )
+    while ether.position in position_initialisee:
 
-		tube_plastiqe.route_mg.append( lepas )
+        ether = ObjetsRamasses(15, 'ether')
 
-	#print( tube_plastiqe.route_mg )
+    # Ajout de la position de l'ether dans la liste des positions occupées
 
+    position_initialisee.append(ether.position)
 
+    # Définition de la route que mcgyver emprunte pour atteindre cet objet
 
+    lepas = mg.position
 
+    ether.route_mg.append(lepas)
 
-	ether = ObjetsRamasses( 15 , 'ether' )
+    while lepas != ether.position:
 
-	# Test si la position de l'ether est déjà occupée
+        lepas = pas.make_pas(lepas, ether.position)
 
-	while ether.position in position_initialisee :
-		
-		ether = ObjetsRamasses( 15 , 'ether' )
+        ether.route_mg.append(lepas)
 
-	# Ajout de la position de l'ether dans la liste des positions occupées
+    #print( ether.route_mg )
 
-	position_initialisee.append( ether.position )
+    sortie = Sortie(15)
 
-	# Définition de la route que mcgyver emprunte pour atteindre cet objet
+    # Test si la position de la sortie est déjà occupée
 
-	lepas = mg.position
+    while (sortie.position in aiguille.route_mg) or (sortie.position in tube_plastiqe.route_mg) or (sortie.position in ether.route_mg):
 
-	ether.route_mg.append( lepas )
+        sortie = Sortie(15)
 
-	while lepas != ether.position :
+    # Ajout de la position de la sortie dans la liste des positions occupées
 
-		lepas = pas.make_pas( lepas , ether.position )
+    position_initialisee.append(sortie.position)
 
-		ether.route_mg.append( lepas )
+    # Définition de la route que mcgyver emprunte pour atteindre la sorite
 
-	#print( ether.route_mg )
+    lepas = mg.position
 
+    sortie.route_mg.append(lepas)
 
+    while lepas != sortie.position:
 
+        lepas = pas.make_pas(lepas, sortie.position)
 
+        sortie.route_mg.append(lepas)
 
-	sortie = Sortie(15)
+    #print( 'sortie ' , sortie.route_mg )
 
-	# Test si la position de la sortie est déjà occupée
+    plateau.initialisemur(
+        15, aiguille.route_mg, tube_plastiqe.route_mg, ether.route_mg, sortie.route_mg)
 
-	while ( sortie.position in aiguille.route_mg ) or ( sortie.position in tube_plastiqe.route_mg ) or ( sortie.position in ether.route_mg ) :
-		
-		sortie = Sortie( 15 )
+    gardien = Gardien()
 
-	# Ajout de la position de la sortie dans la liste des positions occupées
+    gardien.position = sortie.position
 
-	position_initialisee.append( sortie.position )
+    plateaujson = []
 
-	# Définition de la route que mcgyver emprunte pour atteindre la sorite
+    for i0 in plateau.mur:
 
-	lepas = mg.position
+        plateaujson.append(list(i0))
 
-	sortie.route_mg.append( lepas )
+    #print( 'structure json : ' , plateaujson , list( mg.position ) , list(sortie.position) )
 
-	while lepas != sortie.position :
+    return([plateau, mg, sortie, [aiguille, tube_plastiqe, ether]])
 
-		lepas = pas.make_pas( lepas , sortie.position )
 
-		sortie.route_mg.append( lepas )
+# Pygame initial
 
-	#print( 'sortie ' , sortie.route_mg )
+    """
+    pygame.init()
+    fenetre = pygame.display.set_mode((600, 600), RESIZABLE)
 
+    #  Définition du mur
 
+    pygame_wall = []
+    fond = pygame.image.load("mcgyver/fbc1.png").convert()
 
-	plateau.initialisemur( 15 , aiguille.route_mg , tube_plastiqe.route_mg , ether.route_mg , sortie.route_mg  )
 
+    fenetre.blit(fond, (0, 0))
 
+    #  Placement des murs
+    for i_0 in plateau0.murs:
+        pygame_wall.append(pygame.image.load("mcgyver/macgyver_ressources/ressource/brique.png").convert())
 
+    #print( pygame_wall )
+    for i_1 in pygame_wall:
+        fenetre.blit(i_1, (plateau0.murs[pygame_wall.index(i_1)][0] * 40, plateau0.murs[pygame_wall.index(i_1)][1] * 40))
 
-	gardien = Gardien()
+    #  Placement de McGyver et du gardien
+    # McGyver
+    py_mcgyver = pygame.image.load("mcgyver/macgyver_ressources/ressource/mcgyver1.png").convert_alpha()
+    anneau_mcgyver = pygame.image.load("mcgyver/macgyver_ressources/ressource/anneaunoir.png").convert_alpha()
+    fenetre.blit(py_mcgyver, ((mg0.position[0] * 40) + 7.5, (mg0.position[1] * 40) + 7.5))
+    fenetre.blit(anneau_mcgyver, (mg0.position[0] * 40, mg0.position[1] * 40))
+    # Gardien
+    py_gardien = pygame.image.load("mcgyver/macgyver_ressources/ressource/gardien1.png").convert_alpha()
 
-	gardien.position = sortie.position
+    #  Placement de la sortie et du gardien
+    anneau_sortie = pygame.image.load("mcgyver/macgyver_ressources/ressource/anneaurouge.png").convert_alpha()
+    fenetre.blit(py_gardien, ((gardien0.position[0] * 40) + 7.5, (gardien0.position[1] * 40) + 7.5))
+    fenetre.blit(anneau_sortie, (gardien0.position[0] * 40, gardien0.position[1] * 40))	
 
+    # Placement des objets à ramasser
+    anneau_objets = pygame.image.load("mcgyver/macgyver_ressources/ressource/anneauvert.png").convert_alpha()
+    # aiguille
+    py_aiguille0 = pygame.image.load("mcgyver/macgyver_ressources/ressource/aiguille1.png").convert_alpha()
+    fenetre.blit(py_aiguille0, ((aiguille0.position[0] * 40) + 7.5, (aiguille0.position[1] * 40) + 7.5))	
+    fenetre.blit(anneau_objets, (aiguille0.position[0] * 40, aiguille0.position[1] * 40))	
+    # tube plastique
+    py_tube_plastique0 = pygame.image.load("mcgyver/macgyver_ressources/ressource/tube_plastique1.png").convert()
+    fenetre.blit(py_tube_plastique0, ((tube_plastiqe0.position[0] * 40) + 7.5 ,(tube_plastiqe0.position[1] * 40) + 7.5))	
+    fenetre.blit(anneau_objets, (tube_plastiqe0.position[0] * 40, tube_plastiqe0.position[1] * 40))	
+    # ether
+    py_ether0 = pygame.image.load("mcgyver/macgyver_ressources/ressource/ether1.png")
+    fenetre.blit(py_ether0, (( ether0.position[0] * 40) + 7.5, (ether0.position[1] * 40) + 7.5))	
+    fenetre.blit(anneau_objets, (ether0.position[0] * 40, ether0.position[1] * 40))	
 
-	plateaujson = []
+    # Affichage des objets placés
+    pygame.display.flip()
 
-	for i0 in plateau.mur :
-		
-		plateaujson.append( list( i0 ) )
+    """
 
-	#print( 'structure json : ' , plateaujson , list( mg.position ) , list(sortie.position) )
+    #fenetre = pygame.display.set_mode((600, 600), RESIZABLE)
 
-	return( [ plateau , mg , sortie , [ aiguille , tube_plastiqe , ether ] ] )
-	
+    #pygame.sprite.Group.draw( )
+    # time.sleep(5)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-##       Pygame initial
-
-	    """
-        pygame.init()
-        fenetre = pygame.display.set_mode((600, 600), RESIZABLE)
-
-        #  Définition du mur
-        
-        pygame_wall = []
-        fond = pygame.image.load("mcgyver/fbc1.png").convert()
-
-        
-        fenetre.blit(fond, (0, 0))
-        
-    	#  Placement des murs
-        for i_0 in plateau0.murs:
-            pygame_wall.append(pygame.image.load("mcgyver/macgyver_ressources/ressource/brique.png").convert())
-
-    	#print( pygame_wall )
-        for i_1 in pygame_wall:
-            fenetre.blit(i_1, (plateau0.murs[pygame_wall.index(i_1)][0] * 40, plateau0.murs[pygame_wall.index(i_1)][1] * 40))
-
-    	#  Placement de McGyver et du gardien
-    	# McGyver
-        py_mcgyver = pygame.image.load("mcgyver/macgyver_ressources/ressource/mcgyver1.png").convert_alpha()
-        anneau_mcgyver = pygame.image.load("mcgyver/macgyver_ressources/ressource/anneaunoir.png").convert_alpha()
-        fenetre.blit(py_mcgyver, ((mg0.position[0] * 40) + 7.5, (mg0.position[1] * 40) + 7.5))
-        fenetre.blit(anneau_mcgyver, (mg0.position[0] * 40, mg0.position[1] * 40))
-    	# Gardien
-        py_gardien = pygame.image.load("mcgyver/macgyver_ressources/ressource/gardien1.png").convert_alpha()
-
-        #  Placement de la sortie et du gardien
-        anneau_sortie = pygame.image.load("mcgyver/macgyver_ressources/ressource/anneaurouge.png").convert_alpha()
-        fenetre.blit(py_gardien, ((gardien0.position[0] * 40) + 7.5, (gardien0.position[1] * 40) + 7.5))
-        fenetre.blit(anneau_sortie, (gardien0.position[0] * 40, gardien0.position[1] * 40))	
-
-    	# Placement des objets à ramasser
-        anneau_objets = pygame.image.load("mcgyver/macgyver_ressources/ressource/anneauvert.png").convert_alpha()
-    	# aiguille
-        py_aiguille0 = pygame.image.load("mcgyver/macgyver_ressources/ressource/aiguille1.png").convert_alpha()
-        fenetre.blit(py_aiguille0, ((aiguille0.position[0] * 40) + 7.5, (aiguille0.position[1] * 40) + 7.5))	
-        fenetre.blit(anneau_objets, (aiguille0.position[0] * 40, aiguille0.position[1] * 40))	
-    	# tube plastique
-        py_tube_plastique0 = pygame.image.load("mcgyver/macgyver_ressources/ressource/tube_plastique1.png").convert()
-        fenetre.blit(py_tube_plastique0, ((tube_plastiqe0.position[0] * 40) + 7.5 ,(tube_plastiqe0.position[1] * 40) + 7.5))	
-        fenetre.blit(anneau_objets, (tube_plastiqe0.position[0] * 40, tube_plastiqe0.position[1] * 40))	
-    	# ether
-        py_ether0 = pygame.image.load("mcgyver/macgyver_ressources/ressource/ether1.png")
-        fenetre.blit(py_ether0, (( ether0.position[0] * 40) + 7.5, (ether0.position[1] * 40) + 7.5))	
-        fenetre.blit(anneau_objets, (ether0.position[0] * 40, ether0.position[1] * 40))	
-
-        # Affichage des objets placés
-        pygame.display.flip()
-
-        """
-
-        #fenetre = pygame.display.set_mode((600, 600), RESIZABLE)
-        
-        #pygame.sprite.Group.draw( )
-        #time.sleep(5)
-
-
-
-
-
-
-
-        """
+    """
 
         # La boucle du jeu
         while mg0.position != gardien0.position:

@@ -1,13 +1,12 @@
 
 
-"""  Sortie du labyrinthe  """
-
-
+"""  La classe de la sortie du labyrinthe est créee dans ce fichier """
 
 
 class Sortie:
-
-    """  Sortie du labyrinthe  """
+    """  Cette classe est la classe de la sortie du labyrinthe gardée par le gardien,
+    et que le heros doit rejoindre une fois qu'il a ramassé tous les objets
+    """
 
     def __init__(self, plateau):
 
@@ -15,5 +14,4 @@ class Sortie:
 
     @property
     def position(self):
-    	return self._position
-    
+        return self._position

@@ -1,13 +1,11 @@
-""" Classe de Mcgyver """
+""" Classe du hero est créee dans ce fichier """
 
 
 import config
 
 
-
-
 class Hero:
-    """ Classe de McGyver """
+    """ Cette classe est celle de McGyver, le heros du jeu de labyrinthe """
 
     def __init__(self, plateau):
 
@@ -15,14 +13,12 @@ class Hero:
         self._objet_ramasse = []
         self._routes = plateau.routes
 
-
     def catch_obj(self, liste_objets_aramass):
-        
+
         for obj in liste_objets_aramass:
             if self.position == obj.position:
                 self.objet_ramasse.append(obj)
                 obj.ramassage()
-
 
     def pas_mcgyver(self, direction, liste_objets_aramass, gardien):
         """ Definit la position de Mcgyver apres un pas """
@@ -44,8 +40,8 @@ class Hero:
                 self._position = (self._position[0], self._position[1] - 1)
                 self.catch_obj(liste_objets_aramass)
 
-
     # getters
+
     @property
     def position(self):
         return self._position
@@ -53,14 +49,13 @@ class Hero:
     @property
     def objet_ramasse(self):
         return self._objet_ramasse
-    
 
     # setters
+
     @position.setter
-    def position(self,valeur):
+    def position(self, valeur):
         self._position = valeur
 
     @objet_ramasse.setter
-    def objet_ramasse(self,valeur):
+    def objet_ramasse(self, valeur):
         self._objet_ramasse = valeur
-    
