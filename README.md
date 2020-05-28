@@ -23,4 +23,4 @@ Mcgyver doit rammesser tous les objets du labyrinthe et rejoindre la sortie
 #### A partir de votre console, rendez vous dans le repertoire `/Mcgyver/`.
 #### Exécutez `pipenv shell`.
 #### Exécutez `pipenv install`.
-#### Lancez en python le fichier `/mcgyver/`.
+#### Exécutez en python le fichier `/mcgyver/`.
