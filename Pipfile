@@ -5,7 +5,8 @@ name = "pypi"
 
 [packages]
 keyboard = "*"
-pygame = "==2.0.0.dev6"
+# pygame = "==2.0.0.dev6"
+pygame = "*"
 
 [dev-packages]
 
