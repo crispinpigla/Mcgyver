@@ -17,7 +17,7 @@ Mcgyver doit rammesser tous les objets du labyrinthe et rejoindre la sortie
 
 ### Prérequis :
 #### Ce jeu est dévéloppé en python. Votre machine doit posséder python pour l'exécuter.
-#### Ce jeu est concu dans un environement virtuel pipenv. Votre machine doit poséder pipenv pour l'exécuter.
+#### Ce jeu est concu dans un environement virtuel pipenv. Votre machine doit posséder pipenv pour l'exécuter.
 
 ### Instructions d'installation
 #### A partir de votre console, rendez vous dans le repertoire `/Mcgyver/`.
